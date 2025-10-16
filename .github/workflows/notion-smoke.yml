@@ -1,0 +1,10 @@
+name: notion-smoke
+on: workflow_dispatch
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          test -n "${{ secrets.NOTION_TOKEN }}" && echo "Token present ✅" || (echo "Missing token ❌"; exit 1)
+          echo "Notion API version: ${{ secrets.NOTION_VERSION || 'default' }}"
+
