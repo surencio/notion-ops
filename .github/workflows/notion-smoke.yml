@@ -3,8 +3,19 @@ on: workflow_dispatch
 jobs:
   run:
     runs-on: ubuntu-latest
-    steps:
+        steps:
       - run: |
-          test -n "${{ secrets.NOTION_TOKEN }}" && echo "Token present ✅" || (echo "Missing token ❌"; exit 1)
-          echo "Notion API version: ${{ secrets.NOTION_VERSION || 'default' }}"
+          test -n "${{ secrets.NOTION_TOKEN }}" || (echo "Missing token ❌"; exit 1)
+          CODE=$(curl -sS -o /dev/null -w "%{http_code}" \
+            -X POST "https://api.notion.com/v1/search" \
+            -H "Authorization: Bearer ${{ secrets.NOTION_TOKEN }}" \
+            -H "Notion-Version: ${{ secrets.NOTION_VERSION || '2025-09-03' }}" \
+            -H "Content-Type: application/json" \
+            --data '{"query":""}')
+          if [ "$CODE" = "200" ]; then
+            echo "API reachable ✅"
+          else
+            echo "API check failed with HTTP $CODE ❌"; exit 1
+          fi
+
 
