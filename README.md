@@ -14,6 +14,15 @@ Automation repo for Notion (REST API) aligned to **Notion-Version: 2025-09-03** 
    - `NOTION_TOKEN` = `ntn_…`  
    - `NOTION_VERSION` = `2025-09-03`
 4. Run the smoke test: **Actions → notion-smoke → Run workflow**.
+### Smoke test
+Run: Actions → notion-smoke → Run workflow.
+
+Expected output:
+- "Token present ✅"
+- "API reachable ✅ (HTTP 200)"
+
+If you see HTTP 403:
+- Ensure the Notion integration is connected to the target page/teamspace (Share → Add connections).
 
 ## Versioning changes (2025-09-03)
 - Use header `Notion-Version: 2025-09-03`.
